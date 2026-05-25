@@ -1,8 +1,40 @@
 @import "tailwindcss" prefix(tw);
 
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  /* Colors */
+  /* darkgray */
+  --color-darkgray-100: #9db2bd;
+  --color-darkgray-200: #949e9c;
+  /*color- turquoise */
+  --color-turquoise-100: #50d2c1;
+  /*color- black */
+  --color-black-100: #0f1a1f;
+  --color-black-200: #0f1a1e;
+  --color-black-300: #04251f;
+  --color-black-400: #0f1a1f;
+  --color-black-500: #00000000;
+  /*color- gray */
+  --color-gray-100: #878c8f;
+  /*color- mintcream */
+  --color-mintcream-100: #f6fefd;
+  /*color- white */
+  --color-white-100: #ffffff;
+  /*color- darkslategray */
+  --color-darkslategray-100: #303030;
+  /*color- Logo Colors */
+  --color-aquamarine: #97fde5;
+  --color-aquamarine: #97fce4;
+  /*color- Homepage Colors */
+  --color-black: #05221c;
+  --color-darkgray: #a8b2b5;
+  --color-dimgray: #5d6b6e;
+  --color-lightseagreen: #57c1b3;
+  --color-darkslategray: #465156;
+  --color-gray: #7c868c;
+  --color-darkslategray: #122f2c;
+  --color-darkslategray: #2e4646;
+  --color-darkslategray: #252e32;
+  --color-darkslategray: #2e393e;
+  --color-darkslategray: #444a4c;
+  --color-black: #04090e;
 }

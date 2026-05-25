@@ -1,6 +1,9 @@
 import { WagmiProvider } from "wagmi";
 import { config } from "./config/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router";
+import DefaultLayout from "./layouts/default";
+import Index from "./pages";
 
 const queryClient = new QueryClient();
 
@@ -9,7 +12,13 @@ function App() {
     <>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <h1 className="tw:text-3xl tw:text-red-600"> Hello World</h1>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<DefaultLayout />}>
+                <Route index element={<Index />}></Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
         </QueryClientProvider>
       </WagmiProvider>
     </>
