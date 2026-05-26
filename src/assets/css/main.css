@@ -5,6 +5,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  cursor: pointer;
+}
+
 .background {
   background: url(../images/back_lines.svg) #04251f no-repeat;
   background-size: cover;
