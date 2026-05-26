@@ -1,4 +1,5 @@
 import { useConnection, useConnectors, useDisconnect } from "wagmi";
+import PrimaryButton from "../Button/Primary";
 
 const ConnectWalletButton = () => {
   const { address } = useConnection();
@@ -24,19 +25,19 @@ const ConnectWalletButton = () => {
   return (
     <>
       {address ? (
-        <button
-          className="tw:rounded-lg tw:bg-turquoise-100 tw:text-black tw:text-xs tw:px-4 tw:h-8 tw:flex tw:flex-col tw:items-center tw:justify-center tw:font-medium"
+        <PrimaryButton
+          title={formattedWalletAddress}
+          isPrimary={false}
+          widthClass="tw:w-fit"
+          textSizeClass="tw:text-xs"
           onClick={() => mutate()}
-        >
-          {formattedWalletAddress}
-        </button>
+        />
       ) : (
-        <button
-          className="tw:rounded-lg tw:bg-turquoise-100 tw:text-black tw:text-xs tw:px-4 tw:h-8 tw:flex tw:flex-col tw:items-center tw:justify-center tw:font-medium"
+        <PrimaryButton
+          title="Connect"
+          widthClass="tw:w-fit"
           onClick={() => connectWallet()}
-        >
-          Connect
-        </button>
+        />
       )}
     </>
   );
