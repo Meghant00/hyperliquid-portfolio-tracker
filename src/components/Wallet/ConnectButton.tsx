@@ -1,19 +1,26 @@
 import { useConnection, useConnectors, useDisconnect } from "wagmi";
 import PrimaryButton from "../Button/Primary";
+import PrimaryDialog from "../Dialog/Primary";
+import { useState } from "react";
+import ConnectDialog from "./ConnectDialog";
 
 const ConnectWalletButton = () => {
   const { address } = useConnection();
   const connectors = useConnectors();
   const { mutate } = useDisconnect();
 
-  const connectWallet = () => {
-    const metaMaskConnector = connectors.find(
-      (connector) => connector.name === "MetaMask",
-    );
+  const [showConnectDialog, setShowConnectDialog] = useState(false);
 
-    if (metaMaskConnector) {
-      metaMaskConnector.connect();
-    }
+  const connectWallet = () => {
+    // const metaMaskConnector = connectors.find(
+    //   (connector) => connector.name === "MetaMask",
+    // );
+
+    // if (metaMaskConnector) {
+    //   metaMaskConnector.connect();
+    // }
+
+    setShowConnectDialog(true);
   };
 
   const formattedWalletAddress = address
@@ -21,6 +28,10 @@ const ConnectWalletButton = () => {
       "..." +
       address.slice(address.length - 4, address.length)
     : "";
+
+  const closeConnectWalletDialog = () => {
+    setShowConnectDialog(false);
+  };
 
   return (
     <>
@@ -39,6 +50,10 @@ const ConnectWalletButton = () => {
           onClick={() => connectWallet()}
         />
       )}
+      <ConnectDialog
+        showConnectDialog={showConnectDialog}
+        closeConnectWalletDialog={closeConnectWalletDialog}
+      />
     </>
   );
 };

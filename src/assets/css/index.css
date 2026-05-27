@@ -16,6 +16,7 @@
   /*color- gray */
   --color-gray-100: #878c8f;
   --color-gray-200: #273035;
+  --color-gray-300: #575e62;
   /*color- mintcream */
   --color-mintcream-100: #f6fefd;
   /*color- white */
@@ -38,4 +39,5 @@
   --color-darkslategray: #2e393e;
   --color-darkslategray: #444a4c;
   --color-black: #04090e;
+  --color-dark-1: #1a2230;
 }

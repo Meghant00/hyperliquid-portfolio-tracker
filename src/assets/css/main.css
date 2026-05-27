@@ -26,3 +26,12 @@ button {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.dialog::backdrop {
+  background: rgb(15 18 29 / 60%);
+  backdrop-filter: blur(2px);
+}
+
+dialog:not([open]) {
+  display: none !important;
+}
