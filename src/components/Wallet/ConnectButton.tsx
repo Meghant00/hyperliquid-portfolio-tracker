@@ -1,25 +1,15 @@
-import { useConnection, useConnectors, useDisconnect } from "wagmi";
+import { useConnection, useDisconnect } from "wagmi";
 import PrimaryButton from "../Button/Primary";
-import PrimaryDialog from "../Dialog/Primary";
 import { useState } from "react";
 import ConnectDialog from "./ConnectDialog";
 
 const ConnectWalletButton = () => {
   const { address } = useConnection();
-  const connectors = useConnectors();
   const { mutate } = useDisconnect();
 
   const [showConnectDialog, setShowConnectDialog] = useState(false);
 
   const connectWallet = () => {
-    // const metaMaskConnector = connectors.find(
-    //   (connector) => connector.name === "MetaMask",
-    // );
-
-    // if (metaMaskConnector) {
-    //   metaMaskConnector.connect();
-    // }
-
     setShowConnectDialog(true);
   };
 
