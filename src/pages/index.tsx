@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useConnection } from "wagmi";
-import { useHyperliquidInfoClient } from "../hooks/hyperliquid/useInfoClient";
-import { useSubscriptionClient } from "../hooks/hyperliquid/useSubscriptionClient";
+import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
+import { infoClient } from "../socket/hyperliquid";
 
 const Index = () => {
   const { address } = useConnection();
 
-  const infoClient = useHyperliquidInfoClient();
+  const userFills = useUserFills({ address: address });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -16,7 +16,7 @@ const Index = () => {
     }
 
     return () => controller.abort();
-  }, [address]);
+  }, [address, infoClient]);
 
   const fetchPortfolioOfAddress = async ({
     signal,
@@ -25,20 +25,14 @@ const Index = () => {
   }) => {
     try {
       if (address) {
-        const res = await infoClient?.portfolio({ user: address }, signal);
+        if (infoClient) {
+          const res = await infoClient.portfolio({ user: address }, signal);
+
+          console.log(res);
+        }
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const subscribeToSocket = () => {
-    if (address) {
-      const subscriptionClient = useSubscriptionClient();
-
-      subscriptionClient?.userFills({ user: address }, (data) => {
-        console.log(data);
-      });
     }
   };
 
