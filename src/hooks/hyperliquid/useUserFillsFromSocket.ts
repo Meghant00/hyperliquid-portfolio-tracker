@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { ISubscription, UserFillsResponse } from "@nktkas/hyperliquid";
+import type { ISubscription, UserFillsWsEvent } from "@nktkas/hyperliquid";
 import { subscriptionClient } from "../../hyperliquid/clients";
 
 export const useUserFills = ({
@@ -7,7 +7,7 @@ export const useUserFills = ({
 }: {
   address: `0x${string}` | undefined;
 }) => {
-  const [userFills, setUserFills] = useState<UserFillsResponse | null>(null);
+  const [userFills, setUserFills] = useState<UserFillsWsEvent | null>(null);
 
   const activeSubscriptionRef = useRef<ISubscription | null>(null);
 
@@ -30,7 +30,7 @@ export const useUserFills = ({
       activeSubscriptionRef.current = await subscriptionClient.userFills(
         { user: address, aggregateByTime: true },
         (data) => {
-          console.log(data);
+          setUserFills(data);
         },
       );
     };

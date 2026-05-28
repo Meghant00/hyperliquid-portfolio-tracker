@@ -1,46 +1,94 @@
-import { useEffect } from "react";
 import { useConnection } from "wagmi";
+import PerformanceOverview from "../components/Portfolio/PerformanceOverview";
+import PortfolioSummary from "../components/Portfolio/Summary";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
-import { infoClient } from "../hyperliquid/clients";
+import { useEffect, useRef, useState } from "react";
+import type { UserFillsResponse, UserFillsWsEvent } from "@nktkas/hyperliquid";
+import { calculateTotalWinsAndLossesFromUserFills } from "../utils/performanceOverview";
+import { getUserFills } from "../services/user";
 
 const Index = () => {
   const { address } = useConnection();
 
-  const userFills = useUserFills({ address: address });
+  const userFills = useRef<UserFillsResponse>([]);
+
+  const userFillsFromSocket = useUserFills({ address });
+
+  const [performanceOverview, setPerformanceOverview] = useState({
+    totalTrades: 0,
+    wins: 0,
+    losses: 0,
+    winRate: 0,
+  });
 
   useEffect(() => {
-    const controller = new AbortController();
+    setUserFillsFromSocket(userFillsFromSocket);
 
-    if (address) {
-      fetchPortfolioOfAddress({ signal: controller.signal });
-    }
+    return () => {};
+  }, [userFillsFromSocket]);
 
-    return () => controller.abort();
-  }, [address, infoClient]);
+  useEffect(() => {
+    const abortController = new AbortController();
 
-  const fetchPortfolioOfAddress = async ({
-    signal,
-  }: {
-    signal: AbortSignal;
-  }) => {
-    try {
-      if (address) {
-        if (infoClient) {
-          const res = await infoClient.portfolio({ user: address }, signal);
+    fetchAndSetUserFills(abortController.signal);
 
-          console.log(res);
-        }
+    return () => {
+      abortController.abort;
+    };
+  }, []);
+
+  const setUserFillsFromSocket = (userFillsEvent: UserFillsWsEvent | null) => {
+    if (userFillsEvent) {
+      if (!userFillsEvent.isSnapshot) {
+        userFills.current = [...userFillsEvent.fills, ...userFills.current];
+        calculatePerformanceOverview();
       }
-    } catch (error) {
-      console.log(error);
     }
+  };
+
+  const fetchAndSetUserFills = async (signal: AbortSignal) => {
+    if (address) {
+      const userFillsRes = await getUserFills({
+        address: address,
+        signal: signal,
+      });
+
+      userFills.current = userFillsRes;
+
+      calculatePerformanceOverview();
+    }
+  };
+
+  const calculatePerformanceOverview = () => {
+    const totalTrades = userFills.current.length;
+
+    const { wins, losses } = calculateTotalWinsAndLossesFromUserFills(
+      userFills.current,
+    );
+
+    const winRate = parseFloat(((wins / totalTrades) * 100).toFixed(2));
+
+    setPerformanceOverview({
+      losses: losses,
+      totalTrades: totalTrades,
+      winRate: winRate,
+      wins: wins,
+    });
   };
 
   return (
     <>
-      <div className="tw:w-full tw:h-dvh">index 1</div>
-      <div className="tw:w-full tw:h-dvh">index 2</div>
-      <div className="tw:w-full tw:h-dvh">index 3</div>
+      <div className="tw:w-full tw:flex tw:flex-col tw:items-center tw:justify-center">
+        <div className="tw:p-8 tw:w-full tw:max-w-328 tw:flex tw:flex-col tw:items-start tw:justify-start tw:gap-8">
+          <PortfolioSummary />
+          <PerformanceOverview
+            losses={performanceOverview.losses}
+            totalTrades={performanceOverview.totalTrades}
+            wins={performanceOverview.wins}
+            winRate={performanceOverview.winRate}
+          />
+        </div>
+      </div>
     </>
   );
 };
