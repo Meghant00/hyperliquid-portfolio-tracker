@@ -4,8 +4,13 @@ import PortfolioSummary from "../components/Portfolio/Summary";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
 import { useEffect, useRef, useState } from "react";
 import type { UserFillsResponse, UserFillsWsEvent } from "@nktkas/hyperliquid";
-import { calculateTotalWinsAndLossesFromUserFills } from "../utils/performanceOverview";
+import {
+  calculateLargestLossAndAverageLoss,
+  calculateLargestProfitAndAverageProfit,
+  calculateTotalWinsAndLossesFromUserFills,
+} from "../utils/performanceOverview";
 import { getUserFills } from "../services/user";
+import BestAndWorst from "../components/Portfolio/BestAndWorst";
 
 const Index = () => {
   const { address } = useConnection();
@@ -19,6 +24,13 @@ const Index = () => {
     wins: 0,
     losses: 0,
     winRate: 0,
+  });
+
+  const [bestAndWorstTrades, setBestAndWorstTrades] = useState({
+    averageProfit: 0,
+    averageLoss: 0,
+    largestProfit: 0,
+    largestLoss: 0,
   });
 
   useEffect(() => {
@@ -42,6 +54,7 @@ const Index = () => {
       if (!userFillsEvent.isSnapshot) {
         userFills.current = [...userFillsEvent.fills, ...userFills.current];
         calculatePerformanceOverview();
+        calculateBestAndWorstTrades();
       }
     }
   };
@@ -56,6 +69,7 @@ const Index = () => {
       userFills.current = userFillsRes;
 
       calculatePerformanceOverview();
+      calculateBestAndWorstTrades();
     }
   };
 
@@ -76,6 +90,22 @@ const Index = () => {
     });
   };
 
+  const calculateBestAndWorstTrades = () => {
+    const { averageProfit, largestProfit } =
+      calculateLargestProfitAndAverageProfit(userFills.current);
+
+    const { averageLoss, largestLoss } = calculateLargestLossAndAverageLoss(
+      userFills.current,
+    );
+
+    setBestAndWorstTrades({
+      averageLoss: averageLoss,
+      averageProfit: averageProfit,
+      largestLoss: largestLoss,
+      largestProfit: largestProfit,
+    });
+  };
+
   return (
     <>
       <div className="tw:w-full tw:flex tw:flex-col tw:items-center tw:justify-center">
@@ -86,6 +116,12 @@ const Index = () => {
             totalTrades={performanceOverview.totalTrades}
             wins={performanceOverview.wins}
             winRate={performanceOverview.winRate}
+          />
+          <BestAndWorst
+            averageLoss={bestAndWorstTrades.averageLoss}
+            averageProfit={bestAndWorstTrades.averageProfit}
+            largestLoss={bestAndWorstTrades.largestLoss}
+            largestProfit={bestAndWorstTrades.largestProfit}
           />
         </div>
       </div>
