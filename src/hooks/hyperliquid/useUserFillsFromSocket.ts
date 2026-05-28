@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ISubscription, UserFillsResponse } from "@nktkas/hyperliquid";
-import { subscriptionClient } from "../../socket/hyperliquid";
+import { subscriptionClient } from "../../hyperliquid/clients";
 
 export const useUserFills = ({
   address,

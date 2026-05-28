@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useConnection } from "wagmi";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
-import { infoClient } from "../socket/hyperliquid";
+import { infoClient } from "../hyperliquid/clients";
 
 const Index = () => {
   const { address } = useConnection();
