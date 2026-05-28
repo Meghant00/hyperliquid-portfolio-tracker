@@ -74,11 +74,11 @@ const Index = () => {
   };
 
   const calculatePerformanceOverview = () => {
-    const totalTrades = userFills.current.length;
-
     const { wins, losses } = calculateTotalWinsAndLossesFromUserFills(
       userFills.current,
     );
+
+    const totalTrades = wins + losses;
 
     const winRate = parseFloat(((wins / totalTrades) * 100).toFixed(2));
 

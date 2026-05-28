@@ -7,9 +7,9 @@ export const calculateTotalWinsAndLossesFromUserFills = (
   let losses = 0;
 
   userFills.forEach((fill) => {
-    if (Number(fill.closedPnl) > 0) {
+    if (Number(fill.closedPnl) && Number(fill.closedPnl) > 0) {
       wins += 1;
-    } else {
+    } else if (Number(fill.closedPnl) < 0) {
       losses += 1;
     }
   });
