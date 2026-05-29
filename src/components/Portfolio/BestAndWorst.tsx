@@ -18,36 +18,36 @@ const BestAndWorst = ({
       </div>
       <div className="tw:w-full tw:grid tw:grid-cols-2 tw:md:grid-cols-5">
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start tw:lg:col-span-2">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Largest Profit
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-white">
-            {largestProfit}
+          <div className="tw:text-sm tw:font-semibold tw:text-green-500">
+            ${largestProfit}
           </div>
         </div>
 
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Average Profit
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-white">
-            {averageProfit}
+          <div className="tw:text-sm tw:font-semibold tw:text-green-500">
+            ${averageProfit}
           </div>
         </div>
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Largest Loss
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-white">
-            {largestLoss}
+          <div className="tw:text-sm tw:font-semibold tw:text-red-700">
+            ${largestLoss}
           </div>
         </div>
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Average Loss
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-white">
-            {averageLoss}
+          <div className="tw:text-sm tw:font-semibold tw:text-red-700">
+            ${averageLoss}
           </div>
         </div>
       </div>

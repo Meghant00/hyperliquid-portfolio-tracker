@@ -18,7 +18,7 @@ const PerformanceOverview = ({
       </div>
       <div className="tw:w-full tw:grid tw:grid-cols-2 tw:md:grid-cols-5">
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start tw:lg:col-span-2">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Total Trades
           </div>
           <div className="tw:text-sm tw:font-semibold tw:text-white">
@@ -27,7 +27,7 @@ const PerformanceOverview = ({
         </div>
 
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Wins
           </div>
           <div className="tw:text-sm tw:font-semibold tw:text-white">
@@ -35,7 +35,7 @@ const PerformanceOverview = ({
           </div>
         </div>
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Losses
           </div>
           <div className="tw:text-sm tw:font-semibold tw:text-white">
@@ -43,10 +43,12 @@ const PerformanceOverview = ({
           </div>
         </div>
         <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
-          <div className="tw:py-2 tw:text-dark-2 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
+          <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Win Rate
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-white">
+          <div
+            className={`tw:text-sm tw:font-semibold ${winRate >= 50 ? "tw:text-green-500" : "tw:text-red-700"}`}
+          >
             {winRate}%
           </div>
         </div>
