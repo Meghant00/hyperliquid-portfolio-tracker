@@ -38,7 +38,11 @@ export const calculateLargestProfitAndAverageProfit = (
     }
   });
 
-  const averageProfit = parseFloat((totalProfit / profitableTrades).toFixed(2));
+  let averageProfit = 0;
+
+  if (totalProfit) {
+    averageProfit = parseFloat((totalProfit / profitableTrades).toFixed(2));
+  }
 
   return {
     totalProfit: totalProfit,
@@ -67,7 +71,11 @@ export const calculateLargestLossAndAverageLoss = (
     }
   });
 
-  const averageLoss = parseFloat((totalLoss / nonProfitableTrade).toFixed(2));
+  let averageLoss = 0;
+
+  if (totalLoss) {
+    averageLoss = parseFloat((totalLoss / nonProfitableTrade).toFixed(2));
+  }
 
   return {
     totalLoss: totalLoss,

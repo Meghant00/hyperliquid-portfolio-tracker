@@ -87,7 +87,11 @@ const Index = () => {
 
     const totalTrades = wins + losses;
 
-    const winRate = parseFloat(((wins / totalTrades) * 100).toFixed(2));
+    let winRate = 0;
+
+    if (wins) {
+      winRate = parseFloat(((wins / totalTrades) * 100).toFixed(2));
+    }
 
     setPerformanceOverview({
       losses: losses,
