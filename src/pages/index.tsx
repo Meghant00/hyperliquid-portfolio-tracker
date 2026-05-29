@@ -40,6 +40,13 @@ const Index = () => {
   }, [userFillsFromSocket]);
 
   useEffect(() => {
+    if (!address) {
+      resetBestAndWorstTrades();
+      resetPerformanceOverview();
+    }
+  }, [address]);
+
+  useEffect(() => {
     const abortController = new AbortController();
 
     fetchAndSetUserFills(abortController.signal);
@@ -103,6 +110,24 @@ const Index = () => {
       averageProfit: averageProfit,
       largestLoss: largestLoss,
       largestProfit: largestProfit,
+    });
+  };
+
+  const resetPerformanceOverview = () => {
+    setPerformanceOverview({
+      losses: 0,
+      totalTrades: 0,
+      winRate: 0,
+      wins: 0,
+    });
+  };
+
+  const resetBestAndWorstTrades = () => {
+    setBestAndWorstTrades({
+      averageLoss: 0,
+      averageProfit: 0,
+      largestLoss: 0,
+      largestProfit: 0,
     });
   };
 
