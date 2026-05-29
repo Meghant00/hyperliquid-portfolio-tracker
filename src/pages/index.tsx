@@ -1,6 +1,5 @@
 import { useConnection } from "wagmi";
 import PerformanceOverview from "../components/Portfolio/PerformanceOverview";
-import PortfolioSummary from "../components/Portfolio/Summary";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
 import { useEffect, useRef, useState } from "react";
 import type { UserFillsResponse, UserFillsWsEvent } from "@nktkas/hyperliquid";
@@ -11,6 +10,7 @@ import {
 } from "../utils/performanceOverview";
 import { getUserFills } from "../services/user";
 import BestAndWorst from "../components/Portfolio/BestAndWorst";
+import PortfolioOverview from "../components/Portfolio/Overview/Overview";
 
 const Index = () => {
   const { address } = useConnection();
@@ -110,7 +110,7 @@ const Index = () => {
     <>
       <div className="tw:w-full tw:flex tw:flex-col tw:items-center tw:justify-center">
         <div className="tw:p-8 tw:w-full tw:max-w-328 tw:flex tw:flex-col tw:items-start tw:justify-start tw:gap-8">
-          <PortfolioSummary />
+          <PortfolioOverview />
           <PerformanceOverview
             losses={performanceOverview.losses}
             totalTrades={performanceOverview.totalTrades}
