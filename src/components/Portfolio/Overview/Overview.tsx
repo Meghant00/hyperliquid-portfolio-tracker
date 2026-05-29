@@ -1,4 +1,3 @@
-import type { PortfolioResponse } from "@nktkas/hyperliquid";
 import { useEffect, useState } from "react";
 import { useConnection } from "wagmi";
 import { infoClient } from "../../../hyperliquid/clients";
@@ -10,8 +9,6 @@ import TotalPnl from "./TotalPnl";
 
 const PortfolioOverview = () => {
   const { address } = useConnection();
-
-  const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
 
   const [portfolioSummary, setPortfolioSummary] = useState<IPortfolioSummary>({
     allTimePnl: "0",
@@ -28,11 +25,11 @@ const PortfolioOverview = () => {
   const [pnlHistory, setPnlHistory] = useState<[number, string][]>([]);
 
   useEffect(() => {
+    console.log("use effect address changed", address);
+
     const controller = new AbortController();
 
-    if (address) {
-      fetchPortfolioOfAddress({ signal: controller.signal });
-    }
+    fetchPortfolioOfAddress({ signal: controller.signal });
 
     return () => controller.abort();
   }, [address, infoClient]);
@@ -46,8 +43,6 @@ const PortfolioOverview = () => {
       if (address) {
         if (infoClient) {
           const res = await infoClient.portfolio({ user: address }, signal);
-
-          setPortfolio(res);
 
           console.log(res);
 
@@ -82,9 +77,9 @@ const PortfolioOverview = () => {
             setAccountValueHistory(allTimeAccountValueHistory);
             setPnlHistory(allTimePnlHistory);
           }
-        } else {
-          resetPortfolioSummary();
         }
+      } else {
+        resetPortfolioSummary();
       }
     } catch (error) {
       console.log(error);
