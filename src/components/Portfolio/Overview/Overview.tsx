@@ -6,6 +6,7 @@ import type { IPortfolioSummary } from "../../../interface/Portfolio";
 import TotalVolume from "./TotalVolume";
 import TotalEquity from "./TotalEquity";
 import TotalPnl from "./TotalPnl";
+import AccountHistory from "../AccountHistory/AccountHistory";
 
 const PortfolioOverview = () => {
   const { address } = useConnection();
@@ -95,7 +96,9 @@ const PortfolioOverview = () => {
         />
         <TotalPnl totalPnlInNumber={portfolioSummary.allTimePnlInNumber} />
       </div>
-      <div className="tw:w-full tw:col-span-2"></div>
+      <div className="tw:w-full tw:col-span-2">
+        <AccountHistory />
+      </div>
     </div>
   );
 };
