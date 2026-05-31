@@ -17,7 +17,9 @@ const Index = () => {
 
   const userFills = useRef<UserFillsResponse>([]);
 
-  const userFillsFromSocket = useUserFills({ address });
+  const { userFills: userFillsFromSocket, unsubscribeUserFills } = useUserFills(
+    { address },
+  );
 
   const [performanceOverview, setPerformanceOverview] = useState({
     totalTrades: 0,
@@ -46,6 +48,7 @@ const Index = () => {
       resetBestAndWorstTrades();
       resetPerformanceOverview();
     } else {
+      unsubscribeUserFills();
       fetchAndSetUserFills(abortController.signal);
     }
 
