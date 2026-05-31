@@ -12,6 +12,8 @@ export const useUserFills = ({
   const activeSubscriptionRef = useRef<ISubscription | null>(null);
 
   useEffect(() => {
+    console.log(`Custom hook wallet changed ${address}`);
+
     if (!subscriptionClient) {
       console.log("Subscription client not initialized");
       return;
@@ -30,6 +32,8 @@ export const useUserFills = ({
       activeSubscriptionRef.current = await subscriptionClient.userFills(
         { user: address, aggregateByTime: true },
         (data) => {
+          console.log("user fills data", data);
+
           setUserFills(data);
         },
       );

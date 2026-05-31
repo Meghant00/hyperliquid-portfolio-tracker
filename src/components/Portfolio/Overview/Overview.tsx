@@ -25,8 +25,6 @@ const PortfolioOverview = () => {
   const [pnlHistory, setPnlHistory] = useState<[number, string][]>([]);
 
   useEffect(() => {
-    console.log("use effect address changed", address);
-
     const controller = new AbortController();
 
     fetchPortfolioOfAddress({ signal: controller.signal });
@@ -44,8 +42,6 @@ const PortfolioOverview = () => {
         if (infoClient) {
           const res = await infoClient.portfolio({ user: address }, signal);
 
-          console.log(res);
-
           if (res) {
             const {
               accountValueHistory: allTimeAccountValueHistory,
@@ -55,15 +51,6 @@ const PortfolioOverview = () => {
               allTimeVolumeInNumber,
               pnlHistory: allTimePnlHistory,
             } = getAllTimeVolumeAndPnlFromPortfolio(res);
-
-            console.log({
-              allTimePnl: allTimePnl,
-              allTimePnlInNumber: allTimePnlInNumber,
-              allTimeVolume: allTimeVolume,
-              allTimeVolumeInNumber: allTimeVolumeInNumber,
-              totalEquity: "0",
-              totalEquityInNumber: 0,
-            });
 
             setPortfolioSummary({
               allTimePnl: allTimePnl,

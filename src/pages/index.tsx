@@ -40,21 +40,19 @@ const Index = () => {
   }, [userFillsFromSocket]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     if (!address) {
       resetBestAndWorstTrades();
       resetPerformanceOverview();
+    } else {
+      fetchAndSetUserFills(abortController.signal);
     }
-  }, [address]);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    fetchAndSetUserFills(abortController.signal);
 
     return () => {
       abortController.abort;
     };
-  }, []);
+  }, [address]);
 
   const setUserFillsFromSocket = (userFillsEvent: UserFillsWsEvent | null) => {
     if (userFillsEvent) {
