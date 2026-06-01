@@ -1,7 +1,14 @@
 import { useState } from "react";
 import PrimaryTab from "../../Tab/Primary";
+import PortfolioChart from "../Chart/Chart";
 
-const AccountHistory = () => {
+const AccountHistory = ({
+  accountValueHistory,
+  pnlHistory,
+}: {
+  accountValueHistory: [number, string][];
+  pnlHistory: [number, string][];
+}) => {
   const tabs = ["Account Value", "PNL"];
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -17,6 +24,11 @@ const AccountHistory = () => {
         currentTab={currentTab}
         changeCurrentTab={changeCurrentTab}
       />
+      <div className="tw:p-3">
+        <PortfolioChart
+          data={currentTab === 0 ? accountValueHistory : pnlHistory}
+        />
+      </div>
     </div>
   );
 };

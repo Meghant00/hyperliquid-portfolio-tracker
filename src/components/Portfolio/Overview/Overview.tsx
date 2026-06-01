@@ -83,6 +83,9 @@ const PortfolioOverview = () => {
       totalEquity: "0",
       totalEquityInNumber: 0,
     });
+
+    setAccountValueHistory([]);
+    setPnlHistory([]);
   };
 
   return (
@@ -97,7 +100,10 @@ const PortfolioOverview = () => {
         <TotalPnl totalPnlInNumber={portfolioSummary.allTimePnlInNumber} />
       </div>
       <div className="tw:w-full tw:col-span-2">
-        <AccountHistory />
+        <AccountHistory
+          accountValueHistory={accountValueHistory}
+          pnlHistory={pnlHistory}
+        />
       </div>
     </div>
   );
