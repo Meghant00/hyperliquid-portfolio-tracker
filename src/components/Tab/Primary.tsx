@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 interface PrimaryTabProps {
   tabs: string[];
   currentTab: number;
-  changeCurrentTab: Function;
+  changeCurrentTab: (index: number) => void;
   widthClass?: string;
   heightClass?: string;
   tabPaddingClass?: string;
@@ -26,6 +26,8 @@ export const PrimaryTab = ({
     width: "0px",
   });
 
+  const tabButtonRefs = useRef<HTMLButtonElement[] | null[]>([]);
+
   useEffect(() => {
     setActiveTabWidthAndPosition();
 
@@ -38,42 +40,16 @@ export const PrimaryTab = ({
   }, [currentTab]);
 
   const setActiveTabWidthAndPosition = () => {
-    if (tabRef.current) {
-      const tabChildNodes = [...tabRef.current.childNodes];
+    const currentButton = tabButtonRefs.current[currentTab];
 
-      const tabNodes = tabChildNodes.slice(0, tabChildNodes.length - 1);
-
-      const currentNode: HTMLElement = tabNodes[
-        currentTab
-      ] as unknown as HTMLElement;
-
-      const currentTabWidth = currentNode.offsetWidth;
-
-      const activeTabWidth = `${currentTabWidth}px`;
-      let activeTabPositionLeft = "0px";
-
-      if (currentTab === 0) {
-        activeTabPositionLeft = "0px";
-      } else {
-        const tabNodesBeforeCurrentTab = tabNodes.slice(
-          0,
-          currentTab,
-        ) as unknown as HTMLElement[];
-
-        let positionLeft = 0;
-
-        tabNodesBeforeCurrentTab.forEach((node) => {
-          positionLeft += node.offsetWidth;
-        });
-
-        activeTabPositionLeft = `${positionLeft}px`;
-      }
-
-      setActiveTabStyle({
-        left: activeTabPositionLeft,
-        width: activeTabWidth,
-      });
+    if (!currentButton) {
+      return;
     }
+
+    setActiveTabStyle({
+      left: `${currentButton.offsetLeft}px`,
+      width: `${currentButton.offsetWidth}px`,
+    });
   };
 
   return (
@@ -87,6 +63,9 @@ export const PrimaryTab = ({
             className={`tw:w-fit tw:h-full tw:text-xs tw:text-gray-100 tw:flex tw:flex-col tw:items-center tw:justify-center tw:transition-all tw:duration-150 tw:ease-linear tw:hover:text-white ${tabPaddingClass} ${index === currentTab ? activeTabClass : ""}`}
             key={tab}
             onClick={() => changeCurrentTab(index)}
+            ref={(el) => {
+              tabButtonRefs.current[index] = el;
+            }}
           >
             {tab}
           </button>
