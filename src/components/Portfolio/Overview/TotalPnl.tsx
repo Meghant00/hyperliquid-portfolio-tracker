@@ -8,7 +8,11 @@ const TotalPnl = ({ totalPnlInNumber }: { totalPnlInNumber: number }) => {
       <div className="tw:text-sm tw:font-medium tw:text-gray-100">
         Total PnL
       </div>
-      <div className="tw:text-white tw:text-3xl">${totalPnl}</div>
+      <div
+        className={`tw:text-3xl ${totalPnlInNumber < 0 ? "tw:text-loss" : "tw:text-profit"}`}
+      >
+        ${totalPnl}
+      </div>
     </div>
   );
 };

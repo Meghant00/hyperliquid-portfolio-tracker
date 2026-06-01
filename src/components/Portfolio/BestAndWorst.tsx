@@ -21,7 +21,7 @@ const BestAndWorst = ({
           <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Largest Profit
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-green-500">
+          <div className="tw:text-sm tw:font-semibold tw:text-profit">
             ${largestProfit}
           </div>
         </div>
@@ -30,7 +30,7 @@ const BestAndWorst = ({
           <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Average Profit
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-green-500">
+          <div className="tw:text-sm tw:font-semibold tw:text-profit">
             ${averageProfit}
           </div>
         </div>
@@ -38,7 +38,7 @@ const BestAndWorst = ({
           <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Largest Loss
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-red-700">
+          <div className="tw:text-sm tw:font-semibold tw:text-loss">
             ${largestLoss}
           </div>
         </div>
@@ -46,7 +46,7 @@ const BestAndWorst = ({
           <div className="tw:py-2 tw:text-gray-100 tw:font-medium tw:text-sm tw:h-9 tw:flex tw:flex-row tw:items-start tw:justify-center">
             Average Loss
           </div>
-          <div className="tw:text-sm tw:font-semibold tw:text-red-700">
+          <div className="tw:text-sm tw:font-semibold tw:text-loss">
             ${averageLoss}
           </div>
         </div>

@@ -47,7 +47,7 @@ const PerformanceOverview = ({
             Win Rate
           </div>
           <div
-            className={`tw:text-sm tw:font-semibold ${winRate >= 50 ? "tw:text-green-500" : "tw:text-red-700"}`}
+            className={`tw:text-sm tw:font-semibold ${winRate >= 50 ? "tw:text-profit" : "tw:text-loss"}`}
           >
             {winRate}%
           </div>
