@@ -1,7 +1,7 @@
 import type { ClearinghouseStateWsEvent } from "@nktkas/hyperliquid";
 import { useUserClearHouseState } from "./hyperliquid/useUserClearingHouseState";
 import { useConnection } from "wagmi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { formatDecimals } from "../utils/number";
 
 export const useUserEquity = () => {
@@ -10,7 +10,10 @@ export const useUserEquity = () => {
   const { userClearingHouseState: userClearingHouseStateFromSocket } =
     useUserClearHouseState({ address });
 
-  const [userEquity, setUserEquity] = useState({
+  const userEquityRef = useRef<{
+    totalEquity: string;
+    totalEquityInNumber: number;
+  }>({
     totalEquity: "0",
     totalEquityInNumber: 0,
   });
@@ -23,10 +26,10 @@ export const useUserEquity = () => {
         clearingHouseStateEvent.clearinghouseState.withdrawable,
       );
 
-      setUserEquity({
+      userEquityRef.current = {
         totalEquity: formatDecimals(totalBalance, 2),
         totalEquityInNumber: totalBalance,
-      });
+      };
     }
   };
 
@@ -34,12 +37,12 @@ export const useUserEquity = () => {
     setClearingHouseStateFromSocket(userClearingHouseStateFromSocket);
 
     return () => {
-      setUserEquity({
+      userEquityRef.current = {
         totalEquity: "0",
         totalEquityInNumber: 0,
-      });
+      };
     };
   }, [userClearingHouseStateFromSocket]);
 
-  return { userEquity };
+  return { userEquity: userEquityRef.current };
 };
