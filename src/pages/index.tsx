@@ -11,6 +11,7 @@ import {
 import { getUserFills } from "../services/user";
 import BestAndWorst from "../components/Portfolio/BestAndWorst";
 import PortfolioOverview from "../components/Portfolio/Overview/Overview";
+import { useUserClearHouseState } from "../hooks/hyperliquid/useUserClearingHouseState";
 
 const Index = () => {
   const { address } = useConnection();
@@ -20,6 +21,9 @@ const Index = () => {
   const { userFills: userFillsFromSocket, unsubscribeUserFills } = useUserFills(
     { address },
   );
+  const { unsubscribeToUserClearingHouseState } = useUserClearHouseState({
+    address,
+  });
 
   const [performanceOverview, setPerformanceOverview] = useState({
     totalTrades: 0,
@@ -49,6 +53,7 @@ const Index = () => {
       resetPerformanceOverview();
     } else {
       unsubscribeUserFills();
+      unsubscribeToUserClearingHouseState();
       fetchAndSetUserFills(abortController.signal);
     }
 

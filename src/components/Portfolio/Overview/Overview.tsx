@@ -7,6 +7,7 @@ import TotalVolume from "./TotalVolume";
 import TotalEquity from "./TotalEquity";
 import TotalPnl from "./TotalPnl";
 import AccountHistory from "../AccountHistory/AccountHistory";
+import { useUserEquity } from "../../../hooks/useUserEquity";
 
 const PortfolioOverview = () => {
   const { address } = useConnection();
@@ -24,6 +25,8 @@ const PortfolioOverview = () => {
     [number, string][]
   >([]);
   const [pnlHistory, setPnlHistory] = useState<[number, string][]>([]);
+
+  const { userEquity } = useUserEquity();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -92,7 +95,7 @@ const PortfolioOverview = () => {
     <div className="tw:w-full tw:grid tw:grid-cols-1 tw:gap-y-3 tw:lg:grid-cols-3 tw:lg:gap-x-3">
       <div className="tw:w-full tw:grid tw:grid-cols-1 tw:gap-y-4 tw:md:grid-cols-2 tw:md:gap-4">
         <div className="tw:w-full tw:md:col-span-2">
-          <TotalEquity totalEquity={portfolioSummary.totalEquity} />
+          <TotalEquity totalEquity={userEquity.totalEquity} />
         </div>
         <TotalVolume
           totalVolumeInNumber={portfolioSummary.allTimeVolumeInNumber}
