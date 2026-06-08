@@ -12,11 +12,15 @@ import { getUserFills } from "../services/user";
 import BestAndWorst from "../components/Portfolio/BestAndWorst";
 import PortfolioOverview from "../components/Portfolio/Overview/Overview";
 import { useUserClearHouseState } from "../hooks/hyperliquid/useUserClearingHouseState";
+import { useAppDispatch, useAppSelector } from "../hooks/state";
+import { setUserFills } from "../slices/userFillsSlice";
 
 const Index = () => {
   const { address } = useConnection();
 
-  const userFills = useRef<UserFillsResponse>([]);
+  const userFills = useAppSelector((state) => state.userFills.userFills);
+
+  const dispatch = useAppDispatch();
 
   const { userFills: userFillsFromSocket, unsubscribeUserFills } = useUserFills(
     { address },
@@ -62,10 +66,21 @@ const Index = () => {
     };
   }, [address]);
 
+  useEffect(() => {
+    calculatePerformanceOverview();
+    calculateBestAndWorstTrades();
+
+    return () => {
+      resetBestAndWorstTrades();
+      resetPerformanceOverview();
+    };
+  }, [userFills]);
+
   const setUserFillsFromSocket = (userFillsEvent: UserFillsWsEvent | null) => {
     if (userFillsEvent) {
       if (!userFillsEvent.isSnapshot) {
-        userFills.current = [...userFillsEvent.fills, ...userFills.current];
+        dispatch(setUserFills([...userFillsEvent.fills, ...userFills]));
+
         calculatePerformanceOverview();
         calculateBestAndWorstTrades();
       }
@@ -79,17 +94,13 @@ const Index = () => {
         signal: signal,
       });
 
-      userFills.current = userFillsRes;
-
-      calculatePerformanceOverview();
-      calculateBestAndWorstTrades();
+      dispatch(setUserFills(userFillsRes));
     }
   };
 
   const calculatePerformanceOverview = () => {
-    const { wins, losses } = calculateTotalWinsAndLossesFromUserFills(
-      userFills.current,
-    );
+    const { wins, losses } =
+      calculateTotalWinsAndLossesFromUserFills(userFills);
 
     const totalTrades = wins + losses;
 
@@ -109,11 +120,10 @@ const Index = () => {
 
   const calculateBestAndWorstTrades = () => {
     const { averageProfit, largestProfit } =
-      calculateLargestProfitAndAverageProfit(userFills.current);
+      calculateLargestProfitAndAverageProfit(userFills);
 
-    const { averageLoss, largestLoss } = calculateLargestLossAndAverageLoss(
-      userFills.current,
-    );
+    const { averageLoss, largestLoss } =
+      calculateLargestLossAndAverageLoss(userFills);
 
     setBestAndWorstTrades({
       averageLoss: averageLoss,
