@@ -1,7 +1,8 @@
 import { useConnection, useDisconnect } from "wagmi";
 import PrimaryButton from "../Button/Primary";
-import { useState } from "react";
-import ConnectDialog from "./ConnectDialog";
+import { lazy, useState } from "react";
+
+const ConnectDialog = lazy(() => import("./ConnectDialog"));
 
 const ConnectWalletButton = () => {
   const { address } = useConnection();

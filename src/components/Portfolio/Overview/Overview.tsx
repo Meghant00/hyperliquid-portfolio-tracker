@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useConnection } from "wagmi";
 import { infoClient } from "../../../hyperliquid/clients";
 import { getAllTimeVolumeAndPnlFromPortfolio } from "../../../utils/portfolio";
@@ -6,8 +6,9 @@ import type { IPortfolioSummary } from "../../../interface/Portfolio";
 import TotalVolume from "./TotalVolume";
 import TotalEquity from "./TotalEquity";
 import TotalPnl from "./TotalPnl";
-import AccountHistory from "../AccountHistory/AccountHistory";
 import { useUserEquity } from "../../../hooks/useUserEquity";
+
+const AccountHistory = lazy(() => import("../AccountHistory/AccountHistory"));
 
 const PortfolioOverview = () => {
   const { address } = useConnection();

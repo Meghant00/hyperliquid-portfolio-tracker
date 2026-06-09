@@ -1,14 +1,16 @@
 import PerformanceOverview from "../components/Portfolio/PerformanceOverview";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import {
   calculateLargestLossAndAverageLoss,
   calculateLargestProfitAndAverageProfit,
   calculateTotalWinsAndLossesFromUserFills,
 } from "../utils/performanceOverview";
-import BestAndWorst from "../components/Portfolio/BestAndWorst";
 import PortfolioOverview from "../components/Portfolio/Overview/Overview";
 import { useAppSelector } from "../hooks/state";
 import { useConnection } from "wagmi";
+
+const BestAndWorst = lazy(() => import("../components/Portfolio/BestAndWorst"));
+
 const Index = () => {
   const userFills = useAppSelector((state) => state.userFills.userFills);
 
