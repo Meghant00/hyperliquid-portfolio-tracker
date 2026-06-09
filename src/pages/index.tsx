@@ -1,8 +1,8 @@
 import { useConnection } from "wagmi";
 import PerformanceOverview from "../components/Portfolio/PerformanceOverview";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
-import { useEffect, useRef, useState } from "react";
-import type { UserFillsResponse, UserFillsWsEvent } from "@nktkas/hyperliquid";
+import { useEffect, useState } from "react";
+import type { UserFillsWsEvent } from "@nktkas/hyperliquid";
 import {
   calculateLargestLossAndAverageLoss,
   calculateLargestProfitAndAverageProfit,
