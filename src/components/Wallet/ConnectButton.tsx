@@ -1,24 +1,18 @@
-import { useConnection, useDisconnect } from "wagmi";
+import { useConnection } from "wagmi";
 import PrimaryButton from "../Button/Primary";
 import { lazy, useState } from "react";
+import ConnectedMenu from "./ConnectedMenu";
 
 const ConnectDialog = lazy(() => import("./ConnectDialog"));
 
 const ConnectWalletButton = () => {
   const { address } = useConnection();
-  const { mutate } = useDisconnect();
 
   const [showConnectDialog, setShowConnectDialog] = useState(false);
 
   const connectWallet = () => {
     setShowConnectDialog(true);
   };
-
-  const formattedWalletAddress = address
-    ? address.slice(0, 6) +
-      "..." +
-      address.slice(address.length - 4, address.length)
-    : "";
 
   const closeConnectWalletDialog = () => {
     setShowConnectDialog(false);
@@ -27,13 +21,7 @@ const ConnectWalletButton = () => {
   return (
     <>
       {address ? (
-        <PrimaryButton
-          title={formattedWalletAddress}
-          isPrimary={false}
-          widthClass="tw:w-fit"
-          textSizeClass="tw:text-xs"
-          onClick={() => mutate()}
-        />
+        <ConnectedMenu address={address} />
       ) : (
         <PrimaryButton
           title="Connect"

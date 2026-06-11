@@ -11,6 +11,14 @@ interface IDropDownContext {
   closeDropDown: () => void;
 }
 
+interface DropDownTriggerProps extends SlotProps {
+  hasBorder?: boolean;
+}
+
+interface DropDownMenuItemProps extends SlotProps {
+  defaultClick?: boolean;
+}
+
 const DropDownContext = createContext<IDropDownContext | null>(null);
 
 const useDropDownContext = () => {
@@ -48,19 +56,25 @@ const DropDown = ({ children }: SlotProps) => {
   );
 };
 
-const DropDownTrigger = ({ children }: SlotProps) => {
+const DropDownTrigger = ({
+  children,
+  hasBorder = false,
+}: DropDownTriggerProps) => {
   const { toggleDropDown, isDropDownOpen } = useDropDownContext();
+
+  const borderClass =
+    "tw:h-8 tw:rounded-lg tw:px-4 tw:bg-transparent tw:border tw:border-gray-200 tw:hover:border-gray-100 tw:disabled:bg-transparent";
 
   return (
     <button
-      className="tw:flex tw:flex-row tw:items-center tw:justify-between tw:gap-1 tw:group"
+      className={`tw:flex tw:flex-row tw:items-center tw:justify-between tw:gap-1 tw:group ${hasBorder && borderClass}`}
       onClick={() => toggleDropDown()}
     >
       {children}
       {isDropDownOpen ? (
-        <i className="bx bx-chevron-up tw:group tw:text-lg tw:text-gray-200 tw:group-hover:text-gray-100"></i>
+        <i className="bx bx-chevron-up tw:group tw:text-xl tw:text-gray-100 tw:group-hover:text-white"></i>
       ) : (
-        <i className="bx bx-chevron-down tw:group tw:text-lg tw:text-gray-200 tw:group-hover:text-gray-100"></i>
+        <i className="bx bx-chevron-down tw:group tw:text-xl tw:text-gray-100 tw:group-hover:text-white"></i>
       )}
     </button>
   );
@@ -78,13 +92,18 @@ const DropDownMenu = ({ children }: SlotProps) => {
   );
 };
 
-const DropDownItem = ({ children }: SlotProps) => {
+const DropDownItem = ({
+  children,
+  defaultClick = true,
+}: DropDownMenuItemProps) => {
   const { closeDropDown } = useDropDownContext();
 
   return (
     <div
       className="tw:cursor-pointer tw:w-full"
-      onClick={() => closeDropDown()}
+      onClick={() => {
+        return defaultClick && closeDropDown();
+      }}
     >
       {children}
     </div>
