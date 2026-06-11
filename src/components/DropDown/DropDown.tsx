@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 interface SlotProps {
   children: React.ReactNode;
@@ -30,31 +31,68 @@ const DropDown = ({ children }: SlotProps) => {
 
   const closeDropDown = () => setIsDropDownOpen(false);
 
+  const dropdownContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useOutsideClick(dropdownContainerRef, () => {
+    setIsDropDownOpen(false);
+  });
+
   return (
     <DropDownContext.Provider
       value={{ isDropDownOpen, toggleDropDown, closeDropDown }}
     >
-      <>{children}</>
+      <div className="tw:relative" ref={dropdownContainerRef}>
+        {children}
+      </div>
     </DropDownContext.Provider>
   );
 };
 
-export const DropDownTrigger = ({ children }: SlotProps) => {
-  const { toggleDropDown } = useDropDownContext();
+const DropDownTrigger = ({ children }: SlotProps) => {
+  const { toggleDropDown, isDropDownOpen } = useDropDownContext();
 
-  return <button onClick={() => toggleDropDown()}>{children}</button>;
+  return (
+    <button
+      className="tw:flex tw:flex-row tw:items-center tw:justify-between tw:gap-1 tw:group"
+      onClick={() => toggleDropDown()}
+    >
+      {children}
+      {isDropDownOpen ? (
+        <i className="bx bx-chevron-up tw:group tw:text-lg tw:text-gray-200 tw:group-hover:text-gray-100"></i>
+      ) : (
+        <i className="bx bx-chevron-down tw:group tw:text-lg tw:text-gray-200 tw:group-hover:text-gray-100"></i>
+      )}
+    </button>
+  );
 };
 
-export const DropDownMenu = ({ children }: SlotProps) => {
+const DropDownMenu = ({ children }: SlotProps) => {
   const { isDropDownOpen } = useDropDownContext();
 
   if (!isDropDownOpen) return null;
 
   return (
-    <div className="tw:flex tw:flex-col tw:items-start tw:justify-start">
+    <div className="tw:w-full tw:p-2.5 tw:flex tw:flex-col tw:items-start tw:justify-start tw:absolute tw:top-[110%] tw:rounded-lg tw:bg-hyperliquid-gray-200 tw:border-b-hyperliquid-gray-100">
       {children}
     </div>
   );
 };
+
+const DropDownItem = ({ children }: SlotProps) => {
+  const { closeDropDown } = useDropDownContext();
+
+  return (
+    <div
+      className="tw:cursor-pointer tw:w-full"
+      onClick={() => closeDropDown()}
+    >
+      {children}
+    </div>
+  );
+};
+
+DropDown.Trigger = DropDownTrigger;
+DropDown.Menu = DropDownMenu;
+DropDown.Item = DropDownItem;
 
 export default DropDown;
