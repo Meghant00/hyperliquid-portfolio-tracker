@@ -35,3 +35,33 @@ button {
 dialog:not([open]) {
   display: none !important;
 }
+
+.pop-up {
+  animation: pop-up 200ms ease-in forwards;
+}
+
+.pop-out {
+  animation: pop-out 200ms ease-out forwards;
+}
+
+@keyframes pop-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+@keyframes pop-out {
+  from {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
