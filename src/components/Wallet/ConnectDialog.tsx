@@ -1,6 +1,7 @@
 import { useConnectors, type Connector } from "wagmi";
 import PrimaryDialog from "../Dialog/Primary";
 import metamaskImage from "../../assets/images/metamask.svg";
+import { useToastContext } from "../Toast/Toast";
 
 const ConnectDialog = ({
   showConnectDialog,
@@ -11,10 +12,19 @@ const ConnectDialog = ({
 }) => {
   const connectors = useConnectors();
 
-  const connectWallet = async (connector: Connector) => {
-    await connector.connect();
+  const { addToast } = useToastContext();
 
-    closeConnectWalletDialog();
+  const connectWallet = async (connector: Connector) => {
+    try {
+      await connector.connect();
+
+      closeConnectWalletDialog();
+
+      addToast({ type: "success", message: "Wallet connected successfully." });
+    } catch (error) {
+      console.log(error);
+      addToast({ type: "error", message: "Error connecting wallet." });
+    }
   };
 
   const availableConnectors = connectors

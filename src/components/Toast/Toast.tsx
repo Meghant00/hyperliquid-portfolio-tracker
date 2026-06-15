@@ -36,7 +36,7 @@ export const useToastContext = () => {
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toasts, setToasts] = useState<IToast[]>([]);
 
-  const addToast = ({ message, type, duration = 5000 }: AddToastParameters) => {
+  const addToast = ({ message, type, duration = 3000 }: AddToastParameters) => {
     const toastId = Date.now();
 
     const toast: IToast = {

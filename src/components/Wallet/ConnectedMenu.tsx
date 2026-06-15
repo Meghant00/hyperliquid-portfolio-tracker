@@ -1,8 +1,11 @@
 import { useDisconnect } from "wagmi";
 import DropDown from "../DropDown/DropDown";
+import { useToastContext } from "../Toast/Toast";
 
 const ConnectedMenu = ({ address }: { address: `0x${string}` }) => {
   const { mutate } = useDisconnect();
+
+  const { addToast } = useToastContext();
 
   const formattedWalletAddress = address
     ? address.slice(0, 6) +
@@ -12,6 +15,17 @@ const ConnectedMenu = ({ address }: { address: `0x${string}` }) => {
 
   const copyWalletAddress = () => {
     navigator.clipboard.writeText(address);
+
+    addToast({
+      type: "success",
+      message: "Wallet address copied successfully.",
+    });
+  };
+
+  const disconnectWallet = () => {
+    mutate();
+
+    addToast({ type: "success", message: "Wallet disconnected successfully." });
   };
 
   return (
@@ -40,7 +54,7 @@ const ConnectedMenu = ({ address }: { address: `0x${string}` }) => {
             <div className="tw:w-full tw:border-t tw:border-t-hyperliquid-gray-100">
               <button
                 className="tw:text-xs tw:text-turquoise-100 tw:hover:text-aquamarine"
-                onClick={() => mutate()}
+                onClick={disconnectWallet}
               >
                 Disconnect
               </button>
