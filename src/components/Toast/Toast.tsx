@@ -75,7 +75,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
       value={{ toasts: toasts, addToast: addToast, removeToast: removeToast }}
     >
       {children}
-      <div className="tw:w-fit tw:absolute tw:top-0 tw:left-1/2 -translate-x-1/2 tw:py-2 tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:transition-all tw:duration-150 tw:ease-linear">
+      <div className="tw:w-fit tw:absolute tw:top-0 tw:left-1/2 tw:py-2 tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:transition-all tw:duration-150 tw:ease-linear">
         {toasts.map((toast) => {
           return <Toast toast={toast} key={toast.id} />;
         })}
@@ -111,7 +111,7 @@ const Toast = ({ toast }: { toast: IToast }) => {
 
   return (
     <div
-      className={`pop-up -translate-x-1/2 tw:bg-hyperliquid-gray-200 tw:rounded-lg tw:text-white tw:px-3 tw:py-2 tw:transition-all tw:duration-200 tw:ease-linear ${toast.isExiting && "pop-out"}`}
+      className={`pop-up tw:-translate-x-1/2 tw:bg-hyperliquid-gray-200 tw:rounded-lg tw:text-white tw:px-3 tw:py-2 tw:transition-all tw:duration-200 tw:ease-linear ${toast.isExiting && "pop-out"}`}
     >
       <div className="tw:w-fit tw:flex tw:flex-row tw:items-center tw:justify-start tw:gap-2">
         <i
