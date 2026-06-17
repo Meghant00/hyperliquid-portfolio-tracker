@@ -8,6 +8,7 @@ import { getUserFills } from "../services/user";
 import { useAppDispatch, useAppSelector } from "../hooks/state";
 import type { UserFillsWsEvent } from "@nktkas/hyperliquid";
 import { setUserFills } from "../slices/userFillsSlice";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 const DefaultLayout = () => {
   const userFills = useAppSelector((state) => state.userFills.userFills);
@@ -66,7 +67,8 @@ const DefaultLayout = () => {
   return (
     <div>
       <Navbar />
-      <div className="background no-scrollbar tw:w-full tw:h-[calc(100dvh-56px)] tw:text-white tw:overflow-auto">
+      <div className="background no-scrollbar tw:w-full tw:h-[calc(100dvh-56px)] tw:text-white tw:overflow-auto tw:flex tw:flex-row tw:items-start tw:justify-start">
+        <Sidebar />
         <Outlet />
       </div>
     </div>
