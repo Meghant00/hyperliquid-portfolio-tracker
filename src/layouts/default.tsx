@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import { useConnection } from "wagmi";
 import { useUserFills } from "../hooks/hyperliquid/useUserFillsFromSocket";
 import { useUserClearHouseState } from "../hooks/hyperliquid/useUserClearingHouseState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserFills } from "../services/user";
 import { useAppDispatch, useAppSelector } from "../hooks/state";
 import type { UserFillsWsEvent } from "@nktkas/hyperliquid";
@@ -23,6 +23,8 @@ const DefaultLayout = () => {
   const { unsubscribeToUserClearingHouseState } = useUserClearHouseState({
     address,
   });
+
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -64,11 +66,22 @@ const DefaultLayout = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setShowSidebar((prev) => !prev);
+  };
+
   return (
     <div>
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="background no-scrollbar tw:w-full tw:h-[calc(100dvh-56px)] tw:text-white tw:overflow-auto tw:flex tw:flex-row tw:items-start tw:justify-start">
-        <Sidebar />
+        <div className="tw:hidden tw:xl:flex">
+          <Sidebar />
+        </div>
+        <div
+          className={`tw:w-screen tw:fixed tw:top-14 tw:left-0 tw:border-t tw:border-t-hyperliquid-gray-100 tw:z-999 tw:transition-all tw:duration-500 tw:flex tw:xl:hidden tw:transform ${showSidebar ? "tw:translate-x-0" : "tw:-translate-x-full"}`}
+        >
+          <Sidebar />
+        </div>
         <Outlet />
       </div>
     </div>
