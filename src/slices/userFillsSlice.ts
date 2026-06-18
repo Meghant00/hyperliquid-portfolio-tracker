@@ -10,10 +10,7 @@ export const userFillsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setUserFills: (state, action: PayloadAction<UserFillsResponse>) => {
-      console.log(action.payload);
       state.userFills = action.payload;
-
-      console.log("state", state.userFills);
     },
   },
 });
