@@ -15,7 +15,7 @@ const Sidebar = () => {
         return (
           <Link
             to={sidebarItem.path}
-            className={`tw:flex tw:flex-row tw:items-center tw:justify-start tw:gap-2 tw:rounded-lg tw:w-full tw:h-10 tw:px-4 tw:transition-all tw:duration-150 tw:ease-linear ${location.pathname === sidebarItem.path && activeItemClass}`}
+            className={`tw:flex tw:flex-row tw:items-center tw:justify-start tw:gap-2 tw:rounded-lg tw:w-full tw:h-10 tw:px-4 tw:transition-all tw:duration-150 tw:ease-linear tw:hover:bg-primary-light tw:hover:text-turquoise-100 ${location.pathname === sidebarItem.path && activeItemClass}`}
             key={sidebarItem.title}
           >
             <i className={`${sidebarItem.iconClass} tw:text-lg`}></i>
