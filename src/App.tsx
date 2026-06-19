@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import DefaultLayout from "./layouts/default";
 import Index from "./pages";
 import ToastProvider from "./components/Toast/Toast";
+import TradeDistribution from "./pages/trade-distribution";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,10 @@ function App() {
               <Routes>
                 <Route path="/" element={<DefaultLayout />}>
                   <Route index element={<Index />}></Route>
+                  <Route
+                    path="/trade-distribution"
+                    element={<TradeDistribution />}
+                  />
                 </Route>
               </Routes>
             </BrowserRouter>

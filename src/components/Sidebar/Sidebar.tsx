@@ -5,6 +5,11 @@ const Sidebar = () => {
 
   const sidebarItems = [
     { iconClass: "bxf bx-dashboard", title: "Dashboard", path: "/" },
+    {
+      iconClass: "bxf bx-pie-chart-alt-2",
+      title: "Trade Distribution",
+      path: "/trade-distribution",
+    },
   ];
 
   const activeItemClass = "tw:bg-primary-light tw:text-turquoise-100 ";
