@@ -8,6 +8,7 @@ import {
 } from "../../utils/tradeDistribution";
 import MostActivelyTradedCoin from "./Overview/MostActivelyTraded";
 import TotalVolumeByCoin from "./Overview/TotalVolumeByCoin";
+import TotalPnlByCoin from "./Overview/TotalPnlByCoin";
 
 const TotalTradesByCoin = () => {
   const userFills = useAppSelector((state) => state.userFills);
@@ -43,6 +44,12 @@ const TotalTradesByCoin = () => {
           <div className="tw:w-fit">
             <TotalVolumeByCoin
               totalVolumeInNumber={activelyTradedCoin.totalVolume}
+              coin={activelyTradedCoin.coin}
+            />
+          </div>
+          <div className="tw:w-fit">
+            <TotalPnlByCoin
+              totalPnlInNumber={activelyTradedCoin.totalPnl}
               coin={activelyTradedCoin.coin}
             />
           </div>

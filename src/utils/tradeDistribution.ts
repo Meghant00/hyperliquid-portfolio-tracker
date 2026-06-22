@@ -4,6 +4,7 @@ import { formatDecimals } from "./number";
 export interface TradedCoin {
   totalTrades: number;
   totalVolume: number;
+  totalPnl: number;
 }
 
 export interface ActivelyTradedCoin {
@@ -11,8 +12,10 @@ export interface ActivelyTradedCoin {
   image: string;
   totalTrades: number;
   totalVolume: number;
+  totalPnl: number;
   displayTotalTrades: string;
   displayTotalVolume: string;
+  displayTotalPnl: string;
 }
 
 const HYPER_LIQUID_IMAGE_URL = "https://app.hyperliquid.xyz/coins";
@@ -26,6 +29,7 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
         coinsAndTrades[userFill.coin] = {
           totalTrades: 1,
           totalVolume: Number(userFill.px) * Math.abs(Number(userFill.sz)),
+          totalPnl: 0,
         };
       } else {
         const currentCoin = coinsAndTrades[userFill.coin];
@@ -35,6 +39,9 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
         currentCoin.totalVolume =
           currentCoin.totalVolume +
           Number(userFill.px) * Math.abs(Number(userFill.sz));
+
+        currentCoin.totalPnl =
+          currentCoin.totalPnl + Number(userFill.closedPnl);
       }
     }
   });
@@ -50,8 +57,10 @@ export const getActivelyTradedCoin = (
     image: "",
     totalTrades: 0,
     totalVolume: 0,
+    totalPnl: 0,
     displayTotalTrades: "0",
     displayTotalVolume: "0",
+    displayTotalPnl: "0",
   };
 
   Object.keys(tradedCoins).forEach((coin) => {
@@ -63,8 +72,10 @@ export const getActivelyTradedCoin = (
         image: `${HYPER_LIQUID_IMAGE_URL}/${coin}.svg`,
         totalTrades: currentCoin.totalTrades,
         totalVolume: currentCoin.totalVolume,
+        totalPnl: currentCoin.totalPnl,
         displayTotalTrades: formatDecimals(currentCoin.totalTrades),
         displayTotalVolume: formatDecimals(currentCoin.totalVolume),
+        displayTotalPnl: formatDecimals(currentCoin.totalPnl),
       };
     }
   });
