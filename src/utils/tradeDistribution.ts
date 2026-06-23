@@ -5,6 +5,8 @@ export interface TradedCoin {
   totalTrades: number;
   totalVolume: number;
   totalPnl: number;
+  largestProfit: number;
+  largestLoss: number;
 }
 
 export interface ActivelyTradedCoin {
@@ -13,6 +15,8 @@ export interface ActivelyTradedCoin {
   totalTrades: number;
   totalVolume: number;
   totalPnl: number;
+  largestProfit: number;
+  largestLoss: number;
   displayTotalTrades: string;
   displayTotalVolume: string;
   displayTotalPnl: string;
@@ -30,6 +34,8 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
           totalTrades: 1,
           totalVolume: Number(userFill.px) * Math.abs(Number(userFill.sz)),
           totalPnl: 0,
+          largestLoss: 0,
+          largestProfit: 0,
         };
       } else {
         const currentCoin = coinsAndTrades[userFill.coin];
@@ -42,6 +48,16 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
 
         currentCoin.totalPnl =
           currentCoin.totalPnl + Number(userFill.closedPnl);
+
+        const currentPnl = Number(userFill.closedPnl);
+
+        if (Number(currentPnl) > currentCoin.largestProfit) {
+          currentCoin.largestProfit = currentPnl;
+        }
+
+        if (Number(currentPnl) < currentCoin.largestLoss) {
+          currentCoin.largestLoss = currentPnl;
+        }
       }
     }
   });
@@ -58,6 +74,8 @@ export const getActivelyTradedCoin = (
     totalTrades: 0,
     totalVolume: 0,
     totalPnl: 0,
+    largestLoss: 0,
+    largestProfit: 0,
     displayTotalTrades: "0",
     displayTotalVolume: "0",
     displayTotalPnl: "0",
@@ -73,6 +91,8 @@ export const getActivelyTradedCoin = (
         totalTrades: currentCoin.totalTrades,
         totalVolume: currentCoin.totalVolume,
         totalPnl: currentCoin.totalPnl,
+        largestLoss: currentCoin.largestLoss,
+        largestProfit: currentCoin.largestProfit,
         displayTotalTrades: formatDecimals(currentCoin.totalTrades),
         displayTotalVolume: formatDecimals(currentCoin.totalVolume),
         displayTotalPnl: formatDecimals(currentCoin.totalPnl),

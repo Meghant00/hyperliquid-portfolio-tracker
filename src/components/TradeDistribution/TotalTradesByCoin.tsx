@@ -9,6 +9,7 @@ import {
 import MostActivelyTradedCoin from "./Overview/MostActivelyTraded";
 import TotalVolumeByCoin from "./Overview/TotalVolumeByCoin";
 import TotalPnlByCoin from "./Overview/TotalPnlByCoin";
+import LargestPnlByCoin from "./Overview/LargestPnlByCoin";
 
 const TotalTradesByCoin = () => {
   const userFills = useAppSelector((state) => state.userFills);
@@ -51,6 +52,19 @@ const TotalTradesByCoin = () => {
             <TotalPnlByCoin
               totalPnlInNumber={activelyTradedCoin.totalPnl}
               coin={activelyTradedCoin.coin}
+            />
+          </div>
+          <div className="tw:w-fit">
+            <LargestPnlByCoin
+              totalPnlInNumber={activelyTradedCoin.largestProfit}
+              coin={activelyTradedCoin.coin}
+            />
+          </div>
+          <div className="tw:w-fit">
+            <LargestPnlByCoin
+              totalPnlInNumber={activelyTradedCoin.largestLoss}
+              coin={activelyTradedCoin.coin}
+              isProfit={false}
             />
           </div>
         </div>
