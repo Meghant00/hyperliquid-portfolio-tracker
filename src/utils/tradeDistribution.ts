@@ -1,26 +1,9 @@
 import type { UserFillsResponse } from "@nktkas/hyperliquid";
 import { formatDecimals } from "./number";
-
-export interface TradedCoin {
-  totalTrades: number;
-  totalVolume: number;
-  totalPnl: number;
-  largestProfit: number;
-  largestLoss: number;
-}
-
-export interface ActivelyTradedCoin {
-  coin: string;
-  image: string;
-  totalTrades: number;
-  totalVolume: number;
-  totalPnl: number;
-  largestProfit: number;
-  largestLoss: number;
-  displayTotalTrades: string;
-  displayTotalVolume: string;
-  displayTotalPnl: string;
-}
+import type {
+  ActivelyTradedCoin,
+  TradedCoin,
+} from "../interface/TradeDistribution";
 
 const HYPER_LIQUID_IMAGE_URL = "https://app.hyperliquid.xyz/coins";
 
@@ -36,6 +19,7 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
           totalPnl: 0,
           largestLoss: 0,
           largestProfit: 0,
+          name: userFill.coin,
         };
       } else {
         const currentCoin = coinsAndTrades[userFill.coin];
@@ -101,4 +85,16 @@ export const getActivelyTradedCoin = (
   });
 
   return activelyTradedCoin;
+};
+
+export const getTradeDistributionData = (
+  allCoins: Record<string, TradedCoin>,
+) => {
+  let tradeDistributionData: TradedCoin[] = [];
+
+  for (const coin of Object.keys(allCoins)) {
+    tradeDistributionData.push(allCoins[coin]);
+  }
+
+  return tradeDistributionData;
 };
