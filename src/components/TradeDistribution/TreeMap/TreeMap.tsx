@@ -1,5 +1,6 @@
 import { Treemap } from "recharts";
 import type { TradedCoin } from "../../../interface/TradeDistribution";
+import TreeMapContent from "./TreeMapContent";
 
 const TradeDistributionTreeMap = ({
   tradeDistributionData,
@@ -13,8 +14,7 @@ const TradeDistributionTreeMap = ({
         height={800}
         data={tradeDistributionData as any[]}
         dataKey="totalTrades"
-        fill="white"
-        stroke="red"
+        content={TreeMapContent}
       ></Treemap>
     </div>
   );
