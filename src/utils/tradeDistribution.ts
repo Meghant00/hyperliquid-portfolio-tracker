@@ -13,13 +13,22 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
   userFills.forEach((userFill) => {
     if (Number(userFill.closedPnl)) {
       if (!Object.keys(coinsAndTrades).includes(userFill.coin)) {
+        const totalProfit =
+          Number(userFill.closedPnl) > 0 ? Number(userFill.closedPnl) : 0;
+        const totalLoss =
+          Number(userFill.closedPnl) < 0 ? Number(userFill.closedPnl) : 0;
+
         coinsAndTrades[userFill.coin] = {
           totalTrades: 1,
           totalVolume: Number(userFill.px) * Math.abs(Number(userFill.sz)),
-          totalPnl: 0,
+          totalPnl: totalProfit ? totalProfit : totalLoss,
           largestLoss: 0,
           largestProfit: 0,
           name: userFill.coin,
+          totalLoss: totalLoss,
+          totalProfit: totalProfit,
+          totalNumberOfLoss: totalProfit ? 0 : 1,
+          totalNumberOfProfit: totalProfit ? 1 : 0,
         };
       } else {
         const currentCoin = coinsAndTrades[userFill.coin];
@@ -34,6 +43,14 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
           currentCoin.totalPnl + Number(userFill.closedPnl);
 
         const currentPnl = Number(userFill.closedPnl);
+
+        if (currentPnl > 0) {
+          currentCoin.totalProfit = currentCoin.totalProfit + currentPnl;
+          currentCoin.totalNumberOfProfit += 1;
+        } else {
+          currentCoin.totalLoss = currentCoin.totalLoss + currentPnl;
+          currentCoin.totalNumberOfLoss += 1;
+        }
 
         if (Number(currentPnl) > currentCoin.largestProfit) {
           currentCoin.largestProfit = currentPnl;
@@ -60,6 +77,10 @@ export const getActivelyTradedCoin = (
     totalPnl: 0,
     largestLoss: 0,
     largestProfit: 0,
+    totalLoss: 0,
+    totalNumberOfLoss: 0,
+    totalNumberOfProfit: 0,
+    totalProfit: 0,
     displayTotalTrades: "0",
     displayTotalVolume: "0",
     displayTotalPnl: "0",
@@ -77,6 +98,10 @@ export const getActivelyTradedCoin = (
         totalPnl: currentCoin.totalPnl,
         largestLoss: currentCoin.largestLoss,
         largestProfit: currentCoin.largestProfit,
+        totalLoss: currentCoin.totalLoss,
+        totalNumberOfLoss: currentCoin.totalNumberOfLoss,
+        totalNumberOfProfit: currentCoin.totalNumberOfProfit,
+        totalProfit: currentCoin.totalProfit,
         displayTotalTrades: formatDecimals(currentCoin.totalTrades),
         displayTotalVolume: formatDecimals(currentCoin.totalVolume),
         displayTotalPnl: formatDecimals(currentCoin.totalPnl),

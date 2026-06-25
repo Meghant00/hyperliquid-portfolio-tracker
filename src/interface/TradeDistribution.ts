@@ -5,6 +5,10 @@ export interface TradedCoin {
   totalPnl: number;
   largestProfit: number;
   largestLoss: number;
+  totalNumberOfProfit: number;
+  totalNumberOfLoss: number;
+  totalProfit: number;
+  totalLoss: number;
 }
 
 export interface ActivelyTradedCoin {
@@ -15,6 +19,10 @@ export interface ActivelyTradedCoin {
   totalPnl: number;
   largestProfit: number;
   largestLoss: number;
+  totalNumberOfProfit: number;
+  totalNumberOfLoss: number;
+  totalProfit: number;
+  totalLoss: number;
   displayTotalTrades: string;
   displayTotalVolume: string;
   displayTotalPnl: string;
