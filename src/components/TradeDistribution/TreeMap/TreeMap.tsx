@@ -11,7 +11,10 @@ const TradeDistributionTreeMap = ({
     <div className="tw:w-full tw:h-full">
       <Treemap
         width="100%"
-        height={800}
+        style={{
+          height:
+            "calc(100dvh - 56px - 32px - 32px - 32px - 32px - 100px - 12px - 12px - 20px)",
+        }}
         data={tradeDistributionData as any[]}
         dataKey="totalTrades"
         content={TreeMapContent}
