@@ -9,6 +9,7 @@ export interface TradedCoin {
   totalNumberOfLoss: number;
   totalProfit: number;
   totalLoss: number;
+  totalTradesOfAllCoin: number;
 }
 
 export interface ActivelyTradedCoin {

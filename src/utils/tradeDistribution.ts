@@ -10,8 +10,12 @@ const HYPER_LIQUID_IMAGE_URL = "https://app.hyperliquid.xyz/coins";
 export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
   const coinsAndTrades: Record<string, TradedCoin> = {};
 
+  let totalTradeCount = 0;
+
   userFills.forEach((userFill) => {
     if (Number(userFill.closedPnl)) {
+      totalTradeCount += 1;
+
       if (!Object.keys(coinsAndTrades).includes(userFill.coin)) {
         const totalProfit =
           Number(userFill.closedPnl) > 0 ? Number(userFill.closedPnl) : 0;
@@ -29,6 +33,7 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
           totalProfit: totalProfit,
           totalNumberOfLoss: totalProfit ? 0 : 1,
           totalNumberOfProfit: totalProfit ? 1 : 0,
+          totalTradesOfAllCoin: totalTradeCount,
         };
       } else {
         const currentCoin = coinsAndTrades[userFill.coin];
@@ -41,6 +46,7 @@ export const groupCoinsByUserFills = (userFills: UserFillsResponse) => {
 
         currentCoin.totalPnl =
           currentCoin.totalPnl + Number(userFill.closedPnl);
+        currentCoin.totalTradesOfAllCoin = totalTradeCount;
 
         const currentPnl = Number(userFill.closedPnl);
 

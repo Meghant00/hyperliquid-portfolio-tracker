@@ -1,14 +1,21 @@
 import type { TreemapNode } from "recharts";
+import { formatDecimals } from "../../../utils/number";
 
 const TreeMapContent = (props: TreemapNode) => {
   const { width, height, x, y, name, depth } = props;
 
   const totalTrades: number = (props.totalTrades as unknown as number) || 0;
+  const totalTradesOfAllCoin: number =
+    (props.totalTradesOfAllCoin as unknown as number) || 0;
 
   const totalNumberOfProfit: number =
     (props.totalNumberOfProfit as unknown as number) || 0;
   const totalNumberOfLoss: number =
     (props.totalNumberOfLoss as unknown as number) || 0;
+
+  const tradePercent = formatDecimals(
+    (totalTrades / totalTradesOfAllCoin) * 100,
+  );
 
   let treeMapFillColor = "#1fa67d";
 
@@ -61,7 +68,7 @@ const TreeMapContent = (props: TreemapNode) => {
         fontSize={percentTextSize}
         fontWeight={500}
       >
-        {totalTrades}({}%)
+        {totalTrades}({tradePercent}%)
       </text>
     </g>
   );
