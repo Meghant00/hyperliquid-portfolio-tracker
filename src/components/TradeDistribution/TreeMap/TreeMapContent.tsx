@@ -8,10 +8,7 @@ const TreeMapContent = (props: TreemapNode) => {
   const totalTradesOfAllCoin: number =
     (props.totalTradesOfAllCoin as unknown as number) || 0;
 
-  const totalNumberOfProfit: number =
-    (props.totalNumberOfProfit as unknown as number) || 0;
-  const totalNumberOfLoss: number =
-    (props.totalNumberOfLoss as unknown as number) || 0;
+  const totalPnl: number = (props.totalPnl as unknown as number) || 0;
 
   const tradePercent = formatDecimals(
     (totalTrades / totalTradesOfAllCoin) * 100,
@@ -21,7 +18,7 @@ const TreeMapContent = (props: TreemapNode) => {
 
   const treeMapStrokeColor = "#273035";
 
-  if (totalNumberOfLoss > totalNumberOfProfit) {
+  if (totalPnl <= 0) {
     treeMapFillColor = "#ed7088";
   }
 
