@@ -8,13 +8,10 @@ const TradeDistributionTreeMap = ({
   tradeDistributionData: TradedCoin[];
 }) => {
   return (
-    <div className="tw:w-full tw:h-full">
+    <div className="tw:w-full tw:h-125 tw:md:h-[calc(100dvh-56px-32px-32px-32px-32px-100px-12px-20px)] tw:overflow-hidden">
       <Treemap
         width="100%"
-        style={{
-          height:
-            "calc(100dvh - 56px - 32px - 32px - 32px - 32px - 100px - 12px - 12px - 20px)",
-        }}
+        height="100%"
         data={tradeDistributionData as any[]}
         dataKey="totalTrades"
         content={TreeMapContent}

@@ -18,6 +18,18 @@ const TreeMapContent = (props: TreemapNode) => {
     treeMapFillColor = "#ed7088";
   }
 
+  const calculateFontSize = (width: number, height: number, ratio = 0.05) => {
+    const baseSize = 16;
+    const area = width * height;
+
+    let newSize = baseSize * Math.sqrt(area) * ratio;
+
+    return Math.round(newSize);
+  };
+
+  const labelTextSize = calculateFontSize(width, height, 0.01);
+  const percentTextSize = calculateFontSize(width, height, 0.003);
+
   return (
     <g>
       <rect
@@ -34,7 +46,8 @@ const TreeMapContent = (props: TreemapNode) => {
           y={y + height / 2 + 7}
           textAnchor="middle"
           fill={treeMapStrokeColor}
-          fontSize={14}
+          fontSize={labelTextSize}
+          fontWeight={800}
         >
           {name}
         </text>
@@ -42,12 +55,13 @@ const TreeMapContent = (props: TreemapNode) => {
 
       <text
         x={x + width / 2}
-        y={y + height / 2 + (7 + 14 + 8)}
+        y={y + height / 2 + 7 + labelTextSize / 2}
         textAnchor="middle"
         fill={treeMapStrokeColor}
-        fontSize={14}
+        fontSize={percentTextSize}
+        fontWeight={500}
       >
-        Total Trades: {totalTrades}
+        {totalTrades}({}%)
       </text>
     </g>
   );
