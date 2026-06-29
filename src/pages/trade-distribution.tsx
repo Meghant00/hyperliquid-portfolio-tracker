@@ -1,5 +1,6 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TotalTradesByCoin from "../components/TradeDistribution/TotalTradesByCoin";
+import TradeDistributionTreeMapContainer from "../components/TradeDistribution/TreeMap/TreeMapContainer";
 import { useAppSelector } from "../hooks/state";
 import {
   getActivelyTradedCoin,
@@ -11,10 +12,6 @@ import type {
   TradedCoin,
 } from "../interface/TradeDistribution";
 import { useConnection } from "wagmi";
-
-const TradeDistributionTreeMapContainer = lazy(
-  () => import("../components/TradeDistribution/TreeMap/TreeMapContainer"),
-);
 
 const TradeDistribution = () => {
   const userFills = useAppSelector((state) => state.userFills);
@@ -71,11 +68,9 @@ const TradeDistribution = () => {
     <div className="tw:w-full tw:flex tw:flex-col tw:items-center tw:justify-center">
       <div className="tw:p-8 tw:w-full tw:max-w-328 tw:flex tw:flex-col tw:items-start tw:justify-start tw:gap-8">
         <TotalTradesByCoin activelyTradedCoin={activelyTradedCoin} />
-        <Suspense>
-          <TradeDistributionTreeMapContainer
-            tradeDistributionData={tradeDistributionData}
-          />
-        </Suspense>
+        <TradeDistributionTreeMapContainer
+          tradeDistributionData={tradeDistributionData}
+        />
       </div>
     </div>
   );
