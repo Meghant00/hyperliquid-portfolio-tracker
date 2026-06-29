@@ -11,9 +11,12 @@ import type {
   ActivelyTradedCoin,
   TradedCoin,
 } from "../interface/TradeDistribution";
+import { useConnection } from "wagmi";
 
 const TradeDistribution = () => {
   const userFills = useAppSelector((state) => state.userFills);
+
+  const { address } = useConnection();
 
   const [, setGroupedCoins] = useState<null | Record<string, TradedCoin>>(null);
   const [tradeDistributionData, setTradeDistributionData] = useState<
@@ -31,18 +34,34 @@ const TradeDistribution = () => {
     };
   }, [userFills]);
 
+  useEffect(() => {
+    if (!address) {
+      resetTradeDistributionData();
+    }
+  }, [address]);
+
   const groupCoins = () => {
-    const allGroupedCoins = groupCoinsByUserFills(userFills.userFills);
+    if (userFills.userFills.length > 0) {
+      const allGroupedCoins = groupCoinsByUserFills(userFills.userFills);
 
-    setGroupedCoins(allGroupedCoins);
+      setGroupedCoins(allGroupedCoins);
 
-    const tempActivelyTradedCoin = getActivelyTradedCoin(allGroupedCoins);
+      const tempActivelyTradedCoin = getActivelyTradedCoin(allGroupedCoins);
 
-    setActivelyTradedCoin(tempActivelyTradedCoin);
+      setActivelyTradedCoin(tempActivelyTradedCoin);
 
-    const tempTradeDistributionData = getTradeDistributionData(allGroupedCoins);
+      const tempTradeDistributionData =
+        getTradeDistributionData(allGroupedCoins);
 
-    setTradeDistributionData(tempTradeDistributionData);
+      setTradeDistributionData(tempTradeDistributionData);
+    } else {
+      resetTradeDistributionData();
+    }
+  };
+
+  const resetTradeDistributionData = () => {
+    setActivelyTradedCoin(null);
+    setTradeDistributionData([]);
   };
 
   return (
